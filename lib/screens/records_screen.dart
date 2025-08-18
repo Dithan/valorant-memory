@@ -16,7 +16,7 @@ class RecordsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Records'),
+        title: Text('Recordes'),
       ),
       body: Padding(
         padding: EdgeInsets.all(12),
