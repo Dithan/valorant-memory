@@ -25,9 +25,7 @@ class HomePage extends StatelessWidget {
               action: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NiveisScreen(
-                      modo: Modo.normal,
-                    ),
+                    builder: (context) => NiveisScreen(modo: Modo.normal),
                   )),
             ),
             StartButton(
@@ -36,9 +34,7 @@ class HomePage extends StatelessWidget {
               action: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NiveisScreen(
-                      modo: Modo.radiant,
-                    ),
+                    builder: (context) => NiveisScreen(modo: Modo.radiant),
                   )),
             ),
             SizedBox(

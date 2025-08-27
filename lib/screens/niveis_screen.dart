@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:valorant_jogo_da_memoria/constants.dart';
+import 'package:valorant_jogo_da_memoria/game_settings.dart';
+import 'package:valorant_jogo_da_memoria/models/game_play.dart';
 import 'package:valorant_jogo_da_memoria/widgets/card_nivel.dart';
 
 class NiveisScreen extends StatelessWidget {
-  final Modo modo;
+  final GamePlay gamePlay;
 
-  const NiveisScreen({super.key, required this.modo});
+  const NiveisScreen({super.key, required this.gamePlay});
 
   @override
   Widget build(BuildContext context) {
+    final niveis =
+        GameSettings.niveis.map((n) => CardNivel(gamePlay: gamePlay)).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nível do Jogo'),
@@ -20,14 +24,7 @@ class NiveisScreen extends StatelessWidget {
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           padding: EdgeInsets.all(24),
-          children: [
-            CardNivel(modo: modo, nivel: 6),
-            CardNivel(modo: modo, nivel: 8),
-            CardNivel(modo: modo, nivel: 10),
-            CardNivel(modo: modo, nivel: 12),
-            CardNivel(modo: modo, nivel: 16),
-            CardNivel(modo: modo, nivel: 18),
-          ],
+          children: niveis,
         ),
       ),
     );

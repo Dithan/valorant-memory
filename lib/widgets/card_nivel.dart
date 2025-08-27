@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:valorant_jogo_da_memoria/constants.dart';
+import 'package:valorant_jogo_da_memoria/models/game_play.dart';
 import 'package:valorant_jogo_da_memoria/screens/game_screen.dart';
 import 'package:valorant_jogo_da_memoria/theme.dart';
 
 class CardNivel extends StatelessWidget {
-  final Modo modo;
-  final int nivel;
+  final GamePlay gamePlay;
 
   const CardNivel({
+    required this.gamePlay,
     super.key,
-    required this.modo,
-    required this.nivel,
   });
+
+  startGame(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => GameScreen(gamePlay: gamePlay),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GameScreen(
-              modo: modo,
-              nivel: nivel,
-            ),
-          )),
+      onTap: () => startGame(context),
       borderRadius: BorderRadius.circular(10),
       child: Container(
         width: 90,
@@ -31,16 +33,18 @@ class CardNivel extends StatelessWidget {
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           border: Border.all(
-            color: modo == Modo.normal ? Colors.white : ValorantTheme.color,
+            color: gamePlay.modo == Modo.normal
+                ? Colors.white
+                : ValorantTheme.color,
           ),
           borderRadius: BorderRadius.circular(10),
-          color: modo == Modo.normal
+          color: gamePlay.modo == Modo.normal
               ? Colors.transparent
               : ValorantTheme.color.withAlpha(6),
         ),
         child: Center(
           child: Text(
-            nivel.toString(),
+            gamePlay.nivel.toString(),
             style: TextStyle(fontSize: 30),
           ),
         ),
