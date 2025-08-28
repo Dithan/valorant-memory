@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:valorant_jogo_da_memoria/constants.dart';
+import 'package:valorant_jogo_da_memoria/controllers/game_controller.dart';
 import 'package:valorant_jogo_da_memoria/models/game_play.dart';
 import 'package:valorant_jogo_da_memoria/screens/game_screen.dart';
 import 'package:valorant_jogo_da_memoria/theme.dart';
@@ -13,6 +15,8 @@ class CardNivel extends StatelessWidget {
   });
 
   startGame(BuildContext context) {
+    context.read<GameController>().startGame(gamePlay: gamePlay);
+
     Navigator.push(
       context,
       MaterialPageRoute(

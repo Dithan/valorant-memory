@@ -1,8 +1,13 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:valorant_jogo_da_memoria/constants.dart';
+import 'package:valorant_jogo_da_memoria/controllers/game_controller.dart';
+import 'package:valorant_jogo_da_memoria/models/game_opcao.dart';
 import 'package:valorant_jogo_da_memoria/models/game_play.dart';
 import 'package:valorant_jogo_da_memoria/widgets/card_game.dart';
 import 'package:valorant_jogo_da_memoria/game_settings.dart';
+import 'package:valorant_jogo_da_memoria/widgets/feedback_game.dart';
 import 'package:valorant_jogo_da_memoria/widgets/game_score.dart';
 
 class GameScreen extends StatelessWidget {
@@ -12,27 +17,36 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GameController>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: GameScore(modo: gamePlay.modo),
       ),
-      body: Center(
-        child: GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: GameSettings.gameBoardAxisCount(gamePlay.nivel),
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
-          padding: EdgeInsets.all(24),
-          children: List.generate(
-            gamePlay.nivel,
-            (index) => CardGame(
-              modo: gamePlay.modo,
-              opcao: Random().nextInt(14),
-            ),
-          ),
-        ),
+      body: Observer(
+        builder: (context) {
+          if (controller.venceu) {
+            return FeedbackGame(resultado: Resultado.aprovado);
+          } else if (controller.perdeu) {
+            return FeedbackGame(resultado: Resultado.eliminado);
+          } else {
+            return Center(
+              child: GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: GameSettings.gameBoardAxisCount(gamePlay.nivel),
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+                padding: EdgeInsets.all(24),
+                children: controller.gameCards
+                    .map((GameOpcao go) =>
+                        CardGame(modo: gamePlay.modo, gameOpcao: go))
+                    .toList(),
+              ),
+            );
+          }
+        },
       ),
     );
   }
